@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Eid card</title>
+    <link href="./font/mono.ttf" />
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.20.0/js/canvas-to-blob.min.js"></script>
+</head>
+<body data-new-gr-c-s-check-loaded="14.1012.0" data-gr-ext-installed="">
+    <div class="container">
+        <div class="en" id="englishCard">
+            <div>
+                <canvas id="canvas" style="width:100%" width="1080" height="1535"></canvas>
+            </div>
+
+            <div class="input">
+                <h3>أكتب اسمك: </h3><br /><br />
+                <input type="text" id="personName" name="name" placeholder="Your Name" autocomplete="off"><br>
+            </div>
+            
+            <div>
+                <a id="download" class="button" download="card.jpg" href="#">إصدار بطاقة التهنئة</a>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var image = new Image(60, 45); // Using optional size for image
+        var ctx2 = canvas.getContext('2d');
+
+        //var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+
+
+
+        var drawImageActualSize = function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            ctx.drawImage(image, 0, -60);
+        }
+
+        var drawImageActualSize2 = function () {
+            ctx2.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            ctx2.drawImage(image, 0, -60);
+        }
+
+        image.onload = drawImageActualSize; // Draw when image has loaded
+        image.src = './images/card-ar.jpg';
+
+
+      //On Person name textbox
+        document.querySelector('input[name=name]').addEventListener('keyup', function () {
+
+           drawImageActualSize();
+            ctx.font = "bold 44px El Messiri";
+            ctx.fillStyle = "#024266";
+                ctx.textAlign = "center";
+            ctx.fillText(this.value, canvas.width / 2, canvas.height * .58);
+
+            //draw textbox 2 "position"
+            ctx2.font = "32px El Messiri";
+            ctx2.fillStyle = "#f8a01b";
+            ctx2.textAlign = "center";
+            ctx2.fillText(document.getElementById("position").value, canvas.width / 2, canvas.height * .80);
+
+        });
+
+
+
+        document.querySelector('input[name=position]').addEventListener('keyup', function () {
+
+            drawImageActualSize2();
+            ctx.font = "bold 44px El Messiri";
+            ctx.fillStyle = "#024266";
+            ctx.textAlign = "center";
+            ctx.fillText(document.getElementById("personName").value, canvas.width / 2, canvas.height * .75);
+
+            ctx2.font = "32px El Messiri";
+            ctx2.fillStyle = "#f8a01b";
+            ctx2.textAlign = "center";
+            ctx2.fillText(this.value, canvas.width / 2, canvas.height * .80);
+
+        });
+
+
+
+
+
+        var downloadBtn = document.getElementById('download');
+        downloadBtn.addEventListener('click', function (e) {
+            //e.preventDefault()
+            // this.href = canvas.toDataURL("image/jpg");
+            // return;
+
+            //window.document.documentMode
+            // this.href = canvas.toDataURL("image/jpg");
+            //if (typeof window.navigator.msSaveBlob !== 'undefined') {
+            if (msie < 0) {
+                // IE workaround for "HTML7007: One or more blob URLs were
+                // revoked by closing the blob for which they were created.
+                // These URLs will no longer resolve as the data backing
+                // the URL has been freed."
+                // window.navigator.msSaveBlob(blob, 'card.jpg');
+                this.href = canvas.toDataURL("image/jpg");
+            }
+            else {
+                canvas.toBlob(
+                    function (blob) {
+
+                        var blobURL = window.URL.createObjectURL(blob);
+                        var tempLink = document.createElement('a');
+                        tempLink.style.display = 'none';
+                        tempLink.href = blobURL;
+                        tempLink.setAttribute('download', 'card.jpg');
+
+                        // Safari thinks _blank anchor are pop ups. We only want to set _blank
+                        // target if the browser does not support the HTML5 download attribute.
+                        // This allows you to download files in desktop safari if pop up blocking
+                        // is enabled.
+                        if (typeof tempLink.download === 'undefined') {
+                            tempLink.setAttribute('target', '_blank');
+                        }
+
+                        document.body.appendChild(tempLink);
+                        tempLink.click();
+                        document.body.removeChild(tempLink);
+                        window.URL.revokeObjectURL(blobURL);
+
+
+                    },
+                    'image/jpeg'
+                );
+            }
+
+        });
+
+    </script>
+    <script async="" src="https://static.addtoany.com/menu/page.js"></script>
+
+
+</body>
+</html>
