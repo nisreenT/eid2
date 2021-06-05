@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -14,17 +14,21 @@
     <div class="container">
         <div class="en" id="englishCard">
             <div>
-                <canvas id="canvas" style="width:100%" width="1080" height="1535"></canvas>
+                <canvas id="canvas" style="width:100%" width="1080" height="1535">Your browser does not support Canvas.</canvas>
             </div>
 
             <div class="input">
                 <h3>أكتب اسمك: </h3><br /><br />
                 <input type="text" id="personName" name="name" placeholder="Your Name" autocomplete="off"><br>
             </div>
-            
+
             <div>
-                <a id="download" class="button" download="card.jpg" href="#">إصدار بطاقة التهنئة</a>
+                <!--<a id="download" class="button" download="card.jpg" href="#">إصدار بطاقة التهنئة</a>-->
+                <a class="button" id="download" download="Eid Mubarak.png">
+                    <button  type="button" onClick="download()">إصدار بطاقة التهنئة</button>
+                </a>
             </div>
+
         </div>
     </div>
     <script>
@@ -97,53 +101,61 @@
 
 
 
-        var downloadBtn = document.getElementById('download');
-        downloadBtn.addEventListener('click', function (e) {
-            //e.preventDefault()
-            // this.href = canvas.toDataURL("image/jpg");
-            // return;
+        //var downloadBtn = document.getElementById('download');
+        //downloadBtn.addEventListener('click', function (e) {
+        //    //e.preventDefault()
+        //    // this.href = canvas.toDataURL("image/jpg");
+        //    // return;
 
-            //window.document.documentMode
-            // this.href = canvas.toDataURL("image/jpg");
-            //if (typeof window.navigator.msSaveBlob !== 'undefined') {
-            if (msie < 0) {
-                // IE workaround for "HTML7007: One or more blob URLs were
-                // revoked by closing the blob for which they were created.
-                // These URLs will no longer resolve as the data backing
-                // the URL has been freed."
-                // window.navigator.msSaveBlob(blob, 'card.jpg');
-                this.href = canvas.toDataURL("image/jpg");
-            }
-            else {
-                canvas.toBlob(
-                    function (blob) {
+        //    //window.document.documentMode
+        //    // this.href = canvas.toDataURL("image/jpg");
+        //    //if (typeof window.navigator.msSaveBlob !== 'undefined') {
+        //    if (msie < 0) {
+        //        // IE workaround for "HTML7007: One or more blob URLs were
+        //        // revoked by closing the blob for which they were created.
+        //        // These URLs will no longer resolve as the data backing
+        //        // the URL has been freed."
+        //        // window.navigator.msSaveBlob(blob, 'card.jpg');
+        //        this.href = canvas.toDataURL("image/jpg");
+        //    }
+        //    else {
+        //        canvas.toBlob(
+        //            function (blob) {
 
-                        var blobURL = window.URL.createObjectURL(blob);
-                        var tempLink = document.createElement('a');
-                        tempLink.style.display = 'none';
-                        tempLink.href = blobURL;
-                        tempLink.setAttribute('download', 'card.jpg');
+        //                var blobURL = window.URL.createObjectURL(blob);
+        //                var tempLink = document.createElement('a');
+        //                tempLink.style.display = 'none';
+        //                tempLink.href = blobURL;
+        //                tempLink.setAttribute('download', 'card.jpg');
 
-                        // Safari thinks _blank anchor are pop ups. We only want to set _blank
-                        // target if the browser does not support the HTML5 download attribute.
-                        // This allows you to download files in desktop safari if pop up blocking
-                        // is enabled.
-                        if (typeof tempLink.download === 'undefined') {
-                            tempLink.setAttribute('target', '_blank');
-                        }
+        //                // Safari thinks _blank anchor are pop ups. We only want to set _blank
+        //                // target if the browser does not support the HTML5 download attribute.
+        //                // This allows you to download files in desktop safari if pop up blocking
+        //                // is enabled.
+        //                if (typeof tempLink.download === 'undefined') {
+        //                    tempLink.setAttribute('target', '_blank');
+        //                }
 
-                        document.body.appendChild(tempLink);
-                        tempLink.click();
-                        document.body.removeChild(tempLink);
-                        window.URL.revokeObjectURL(blobURL);
+        //                document.body.appendChild(tempLink);
+        //                tempLink.click();
+        //                document.body.removeChild(tempLink);
+        //                window.URL.revokeObjectURL(blobURL);
 
 
-                    },
-                    'image/jpeg'
-                );
-            }
+        //            },
+        //            'image/jpeg'
+        //        );
+        //    }
 
-        });
+        //});
+
+        function download() {
+            var download = document.getElementById("download");
+            var image = document.getElementById("canvas").toDataURL("image/png")
+                .replace("image/png", "image/octet-stream");
+            download.setAttribute("href", image);
+            //download.setAttribute("download","archive.png");
+        }
 
     </script>
     <script async="" src="https://static.addtoany.com/menu/page.js"></script>
