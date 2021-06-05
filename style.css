@@ -133,7 +133,12 @@ label {
     }
 
 button:hover {
-    background: #90d506;
+    /*background: #90d506;*/
+}
+button {
+    background-color: #ffffff00;
+    border: none;
+    font-size:18pt;
 }
 
 @media only screen and (max-width: 760px) {
